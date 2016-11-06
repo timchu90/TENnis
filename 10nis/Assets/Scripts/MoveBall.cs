@@ -28,6 +28,10 @@ public class MoveBall : MonoBehaviour {
 
     public GameObject player;
 
+    private GameObject LevelManager;
+
+    
+
     void Reset()
     {
         SceneManager.LoadScene("Court");
@@ -45,6 +49,9 @@ public class MoveBall : MonoBehaviour {
         swing = true;
         winText.text = "";
         anim = player.GetComponent<Animator>();
+        LevelManager = GameObject.Find("GameManager");
+        print("Wins:"+LevelManager.GetComponent<DataHolder>().winNum);
+        print("Losses:" + LevelManager.GetComponent<DataHolder>().lossNum);
     }
     void Update()
     { 
@@ -74,12 +81,13 @@ public class MoveBall : MonoBehaviour {
                     GameObject.Find("Ball").transform.localScale = new Vector3(0, 0, 0);
                     Invoke("Reset", 3); 
                     winText.text = "YOU WIN!";
-                    
+                    LevelManager.GetComponent<DataHolder>().winNum += 1;
                 }
                 else
                 {
                     winText.text = "YOU LOSE...";
                     Invoke("Reset", 3);
+                    LevelManager.GetComponent<DataHolder>().lossNum += 1;
                 }
             }
         }
@@ -97,8 +105,13 @@ public class MoveBall : MonoBehaviour {
         {
             //canJump = true;
             //countText.text = count.ToString();
-            winText.text = "YOU LOSE...";
-            Invoke("Reset", 3);
+            if(swing == false)
+            {
+                swing = true;
+                winText.text = "YOU LOSE...";
+                Invoke("Reset", 3);
+                LevelManager.GetComponent<DataHolder>().lossNum += 1;
+            }
         }
     }
 }
