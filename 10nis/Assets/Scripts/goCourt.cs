@@ -6,6 +6,6 @@ public class goCourt : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {
-        SceneManager.LoadScene("Court");
+        SceneManager.LoadScene("Menu");
     }
 }
